@@ -1,42 +1,93 @@
 "use client";
-import { BookingData } from "@/lib/action";
+
+import { BookingData, checkJoinedStatus, undoBooking } from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
 import { Event, IJoined } from "@/type/type";
-import { ArrowRight, CalendarDays, Clock, HeartHandshake, Users } from "lucide-react";
-import React from "react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Clock,
+  HeartHandshake,
+  Users,
+} from "lucide-react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
   const { data: session } = useSession();
+
+  const [isJoined, setIsJoined] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [checkingStatus, setCheckingStatus] = useState(false);
+  const [joinedCount, setJoinedCount] = useState(eventdetails.joinedCount ?? 0);
+
+  const availableCapacity = Math.max(0, eventdetails.capacity - joinedCount);
+
   const handleSubmit = async () => {
-    //   e.preventDefault();
-    //   const formData = new FormData(e.currentTarget);
-    const joinedUserData: IJoined = {
-      //     eventName:String(formData.get("eventName")),
-      //     time:String(formData.get("time")),
-      //     location:String(formData.get("location")),
-      //     date:String(formData.get("date"))
-      eventName: eventdetails.title,
-      location: eventdetails.location,
-      date: eventdetails.date,
-      time: eventdetails.time,
-      userName: session?.user?.name,
-      userEmail: session?.user?.email,
-      userId: session?.user?.id,
-    };
+    if (!session?.user) {
+      toast.error("Please login first to join this event");
+      return;
+    }
+
+    if (!eventdetails._id) {
+      toast.error("Event ID not found");
+      return;
+    }
+
+    if (!session.user.id || !session.user.email) {
+      toast.error("User information is missing");
+      return;
+    }
+
     try {
-      const result = await BookingData(joinedUserData);
-      console.log(result);
-      toast.success("Successfull Joined");
+      setLoading(true);
+
+      const joined = await checkJoinedStatus(eventdetails._id, session.user.id);
+
+      if (joined) {
+        await undoBooking(eventdetails._id, session.user.id);
+
+        setIsJoined(false);
+        setJoinedCount((prev) => Math.max(0, prev - 1));
+
+        toast.success("You have left the event successfully");
+      } else {
+        if (availableCapacity <= 0) {
+          toast.error("Sorry! This event is full");
+          return;
+        }
+
+        const joinedUserData: IJoined = {
+          eventId: eventdetails._id,
+          eventName: eventdetails.title,
+          location: eventdetails.location,
+          date: eventdetails.date,
+          time: eventdetails.time,
+          userName: session.user.name ?? "",
+          userEmail: session.user.email,
+          userId: session.user.id,
+        };
+
+        await BookingData(joinedUserData);
+
+        setIsJoined(true);
+        setJoinedCount((prev) => prev + 1);
+
+        toast.success("Successfully joined the event!");
+      }
     } catch (error) {
       console.error(error);
-      toast.error("failed to joined");
+
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <div className="sticky top-24">
       <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl shadow-purple-950/5">
-        {/* Top Accent */}
         <div className="h-2 bg-gradient-to-r from-purple-500 via-violet-600 to-indigo-500" />
 
         <div className="p-6 sm:p-7">
@@ -66,18 +117,19 @@ const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
             </div>
           </div>
 
-          {/* Capacity Highlight */}
+          {/* Capacity */}
           <div className="mt-7 rounded-2xl bg-muted/70 p-5">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-                  Event Capacity
+                  Available Participants
                 </p>
+
                 <div className="mt-2 flex items-baseline gap-2">
                   <span className="text-4xl font-extrabold text-foreground">
-                    {eventdetails.capacity}
+                    {availableCapacity}
                   </span>
-                  <span className="text-sm text-text-muted">Participants</span>
+                  <span className="text-sm text-text-muted">Spots Left</span>
                 </div>
               </div>
 
@@ -87,7 +139,7 @@ const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
             </div>
 
             <p className="mt-3 text-xs text-text-muted">
-              Maximum number of volunteers for this event
+              Total capacity: {eventdetails.capacity} participants
             </p>
           </div>
 
@@ -136,18 +188,32 @@ const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
             </div>
           </div>
 
-          {/* Join Button */}
+          {/* Join / Undo Button */}
           <div className="mt-7 border-t border-border pt-6">
             <button
               type="button"
               onClick={handleSubmit}
-              className="group flex w-full items-center justify-center gap-3 rounded-xl bg-purple-600 px-6 py-4 text-sm font-bold text-white shadow-lg shadow-purple-600/20 transition-all duration-300 hover:-translate-y-1 hover:bg-purple-700 hover:shadow-purple-600/30 active:translate-y-0"
+              disabled={loading || (!isJoined && availableCapacity <= 0)}
+              className={`group flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-lg transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 ${
+                isJoined
+                  ? "bg-red-600 shadow-red-600/20 hover:-translate-y-1 hover:bg-red-700"
+                  : "bg-purple-600 shadow-purple-600/20 hover:-translate-y-1 hover:bg-purple-700"
+              }`}
             >
-              Join This Event
-              <ArrowRight
-                size={19}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
+              {loading
+                ? "Please wait..."
+                : isJoined
+                  ? "Undo Join"
+                  : availableCapacity <= 0
+                    ? "Event Full"
+                    : "Join This Event"}
+
+              {!loading && (
+                <ArrowRight
+                  size={19}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              )}
             </button>
 
             <div className="mt-4 flex items-center justify-center gap-2">

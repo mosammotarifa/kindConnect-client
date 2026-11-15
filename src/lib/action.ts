@@ -28,9 +28,7 @@ export const getEventDataById = async (id: string) => {
   const data: Event = await res.json();
   return data;
 };
-export const getEventDataByEmail = async (
-  email: string,
-): Promise<Event[]> => {
+export const getEventDataByEmail = async (email: string): Promise<Event[]> => {
   const res = await fetch(
     `http://localhost:5000/create-event/organizer/${email}`,
   );
@@ -40,18 +38,58 @@ export const getEventDataByEmail = async (
   const data: Event[] = await res.json();
   return data;
 };
+
 export const BookingData = async (joinedUserData: IJoined) => {
-  const res = await fetch(`http://localhost:5000/booking`, {
+  const res = await fetch("http://localhost:5000/booking", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(joinedUserData),
   });
+
+  const data = await res.json();
+
   if (!res.ok) {
-    throw new Error("failed t sendbookig data");
+    throw new Error(data.message || "Failed to join event");
   }
-  const data: IJoined = await res.json();
+
   return data;
 };
+
+// CHECK JOIN STATUS
+export const checkJoinedStatus = async (
+  eventId: string,
+  userId: string,
+): Promise<boolean> => {
+  const res = await fetch(
+    `http://localhost:5000/booking/check/${eventId}/${userId}`,
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to check join status");
+  }
+
+  const data: { isJoined: boolean } = await res.json();
+  return data.isJoined;
+};
+
+// UNDO JOIN
+export const undoBooking = async (eventId: string, userId: string) => {
+  const res = await fetch(
+    `http://localhost:5000/booking/${eventId}/${userId}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to undo joining");
+  }
+
+  return data;
+};
+
 export const joinedUserData = async (userEmail: string) => {
   const res = await fetch(`http://localhost:5000/booking/${userEmail}`);
   if (!res.ok) {
@@ -76,13 +114,13 @@ export const editManageEventData = async (
   const data = await res.json();
   return data;
 };
- export const deleteManageEventData = async(id:string)=>{
-  const res = await fetch(`http://localhost:5000/create-event/${id}`,{
-    method:"DELETE"
-  })
-  if(!res.ok){
-    throw new Error("failed to get deleteMangageEventData")
+export const deleteManageEventData = async (id: string) => {
+  const res = await fetch(`http://localhost:5000/create-event/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    throw new Error("failed to get deleteMangageEventData");
   }
-  const data = await res .json()
+  const data = await res.json();
   return data;
-}
+};

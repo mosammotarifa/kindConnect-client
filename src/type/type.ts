@@ -1,4 +1,6 @@
 export interface Event {
+  _id?: string;
+  joinedCount?: number;
   title: string;
   category: string;
   description: string;
@@ -11,6 +13,7 @@ export interface Event {
   email: string;
 }
 export interface IJoined {
+  eventId: string;
   eventName: string;
   time: string;
   location: string;
