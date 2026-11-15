@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 KindConnect – Community Event Management Platform
 
-## Getting Started
+**Live Website:** [Add Your Live Website URL Here]
 
-First, run the development server:
+## 📖 About KindConnect
 
-```bash
+KindConnect is a community event management platform designed to bring people together through meaningful activities. Users can explore community events, participate in social activities, organize events, and connect with people who share similar interests.
+
+Our goal is to encourage community engagement and make a positive impact on society.
+
+## ✨ Key Features
+
+- **User Authentication:** Secure user registration and login with Better Auth.
+- **Explore Community Events:** Browse various community events, including tree plantation, blood donation, charity, food distribution, and more.
+- **Create Events:** Logged-in users can create and organize their own community events.
+- **Event Details:** View detailed information about events, including descriptions, dates, locations, and organizers.
+- **Join Events:** Users can join their favorite events and participate in community activities.
+- **Manage Your Events:** Organizers can manage the events they have created.
+- **My Joined Events:** Users can view the events they have joined.
+- **Profile Management:** Users can view and update their profile name and profile picture.
+- **Responsive Design:** Enjoy a smooth experience on mobile, tablet, and desktop devices.
+
+## 🛠️ Technologies Used
+
+### Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Lucide React
+- Swiper.js
+- Better Auth
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+##  Getting Started
+Follow these steps to run the project locally.
+### 1. Clone the repository
+
+git clone YOUR_CLIENT_REPOSITORY_URL
+
+### 2. Navigate to the project directory
+
+
+cd your-project-folder
+
+
+### 3. Install dependencies
+
+npm install
+
+
+### 4. Configure environment variables
+Create a `.env.local` file and add the required environment variables.
+
+BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_SERVER_URL=http://localhost:5000
+Add your actual authentication and server configuration values.
+### 5. Run the development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000] in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎯 Project Goal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+KindConnect aims to build a stronger and more connected community by making it easier for people to discover, organize, and participate in meaningful social activities.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Together, we can make a difference! 💜**
