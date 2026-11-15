@@ -21,202 +21,281 @@ const EventDetailsPage = async ({ params }: IEventDetailsPage) => {
     <main className="min-h-screen bg-background px-4 py-8 transition-colors sm:px-6 lg:px-10 lg:py-12">
       <div className="mx-auto max-w-7xl">
         {/* Breadcrumb */}
-        <div className="mb-7 flex flex-wrap items-center gap-2 text-sm text-text-muted">
-          <span className="transition hover:text-purple-600">Home</span>
-          <span>/</span>
-          <span className="transition hover:text-purple-600">Events</span>
-          <span>/</span>
+        <div className="mb-8 flex items-center gap-2 text-sm text-text-muted">
+          <span>Home</span>
+          <span className="text-purple-400">/</span>
+          <span>Events</span>
+          <span className="text-purple-400">/</span>
           <span className="font-semibold text-purple-600 dark:text-purple-400">
             Event Details
           </span>
         </div>
 
-        {/* Hero Section */}
-        <section className="group relative isolate overflow-hidden rounded-[2rem] bg-[#171321] shadow-2xl shadow-purple-900/10">
-          <img
-            src={eventdetails.image}
-            alt={eventdetails.title}
-            className="h-[360px] w-full object-cover opacity-80 transition duration-700 group-hover:scale-[1.03] sm:h-[440px] lg:h-[550px]"
-          />
+        {/* Hero - Split Layout */}
+        <section className="grid overflow-hidden rounded-[2rem] border border-border bg-card shadow-sm lg:grid-cols-5">
+          {/* Image */}
+          <div className="relative min-h-[300px] overflow-hidden lg:col-span-3 lg:min-h-[530px]">
+            <img
+              src={eventdetails.image}
+              alt={eventdetails.title}
+              className="absolute inset-0 h-full w-full object-cover transition duration-700 hover:scale-105"
+            />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#100D19] via-[#100D19]/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#100D19]/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/10" />
 
-          <div className="absolute left-5 top-5 sm:left-9 sm:top-9">
-            <span className="inline-flex items-center rounded-full border border-white/30 bg-white/15 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-lg backdrop-blur-xl">
-              {eventdetails.category}
-            </span>
+            <div className="absolute left-6 top-6">
+              <span className="rounded-full border border-white/30 bg-black/30 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-lg">
+                {eventdetails.category}
+              </span>
+            </div>
+
+            <div className="absolute bottom-7 left-6 right-6 sm:bottom-10 sm:left-10">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-purple-300">
+                KINDCONNECT COMMUNITY EVENT
+              </p>
+
+              <h1 className="max-w-2xl text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+                {eventdetails.title}
+              </h1>
+
+              <div className="mt-5 flex flex-wrap items-center gap-4 text-sm font-medium text-white/90">
+                <span className="flex items-center gap-2">
+                  <CalendarDays size={17} className="text-purple-300" />
+                  {new Date(eventdetails.date).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+
+                <span className="flex items-center gap-2">
+                  <MapPin size={17} className="text-purple-300" />
+                  {eventdetails.location}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 w-full p-6 sm:p-10 lg:p-14">
-            <span className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-purple-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-              Discover Something Special
+          {/* Hero Information */}
+          <div className="flex flex-col justify-center p-7 sm:p-10 lg:col-span-2 lg:p-10">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
+              Be Part of the Change
             </span>
 
-            <h1 className="max-w-4xl text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-              {eventdetails.title}
-            </h1>
+            <h2 className="mt-4 text-2xl font-bold leading-snug text-foreground sm:text-3xl">
+              Small actions can create a big impact.
+            </h2>
 
-            <div className="mt-6 flex flex-wrap gap-3 sm:gap-5">
-              <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
-                <CalendarDays size={18} className="text-purple-300" />
-                {new Date(eventdetails.date).toLocaleDateString("en-US", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
+            <p className="mt-4 text-sm leading-7 text-text-muted">
+              Every community initiative starts with people who care. Discover
+              this opportunity, connect with others, and contribute to something
+              meaningful.
+            </p>
+
+            <div className="my-8 border-t border-border" />
+
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-400">
+                  <Clock size={21} />
+                </div>
+                <div>
+                  <p className="text-xs text-text-muted">Event Starts At</p>
+                  <p className="mt-1 font-bold text-foreground">
+                    {eventdetails.time}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
-                <MapPin size={18} className="text-purple-300" />
-                {eventdetails.location}
+              <div className="flex items-center gap-4">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-pink-100 text-pink-600 dark:bg-pink-950 dark:text-pink-400">
+                  <Users size={21} />
+                </div>
+                <div>
+                  <p className="text-xs text-text-muted">
+                    Participant Capacity
+                  </p>
+                  <p className="mt-1 font-bold text-foreground">
+                    {eventdetails.capacity} People
+                  </p>
+                </div>
               </div>
+
+              <div className="flex items-center gap-4">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+                  <HeartHandshake size={21} />
+                </div>
+                <div>
+                  <p className="text-xs text-text-muted">Organized By</p>
+                  <p className="mt-1 font-bold text-foreground">
+                    {eventdetails.organizerName}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-purple-200 bg-purple-50 p-4 dark:border-purple-900 dark:bg-purple-950/30">
+              <p className="text-sm font-semibold text-purple-700 dark:text-purple-300">
+                Your presence matters!
+              </p>
+              <p className="mt-1 text-xs leading-5 text-purple-600 dark:text-purple-400">
+                Join hands with your community and help make a difference.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Main Layout */}
-        <div className="mt-10 grid grid-cols-1 items-start gap-8 lg:grid-cols-3 lg:gap-10">
+        {/* Main Content */}
+        <div className="mt-12 grid grid-cols-1 items-start gap-10 lg:grid-cols-3 lg:gap-12">
           {/* Left Content */}
-          <div className="space-y-8 lg:col-span-2">
-            {/* About Event */}
-            <section className="rounded-[2rem] border border-border bg-card p-6 shadow-sm sm:p-9">
-              <div className="mb-7 flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-400">
-                  <HeartHandshake size={26} />
-                </div>
-
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
-                    Get To Know
-                  </p>
-                  <h2 className="mt-1 text-2xl font-bold text-foreground">
-                    About This Event
-                  </h2>
-                </div>
+          <div className="space-y-12 lg:col-span-2">
+            {/* About */}
+            <section>
+              <div className="mb-5 flex items-center gap-3">
+                <span className="h-8 w-1.5 rounded-full bg-purple-600" />
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
+                  The Story Behind
+                </p>
               </div>
 
-              <p className="text-base leading-8 text-text-muted">
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                About This Event
+              </h2>
+
+              <p className="mt-6 whitespace-pre-line text-base leading-8 text-text-muted">
                 {eventdetails.description}
               </p>
             </section>
 
             {/* Event Information */}
-            <section>
-              <div className="mb-6">
+            <section className="overflow-hidden rounded-3xl border border-border bg-card">
+              <div className="border-b border-border p-6 sm:p-8">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
-                  Event Essentials
+                  Plan Your Visit
                 </p>
-                <h2 className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">
-                  Everything You Need to Know
+
+                <h2 className="mt-2 text-2xl font-bold text-foreground">
+                  Event Information
                 </h2>
+
                 <p className="mt-2 text-sm text-text-muted">
-                  Important information to help you prepare for the event.
+                  Everything you need before joining us.
                 </p>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="divide-y divide-border px-6 sm:px-8">
                 {/* Date */}
-                <div className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-purple-100 text-purple-600 transition group-hover:bg-purple-600 group-hover:text-white dark:bg-purple-950 dark:text-purple-400 dark:group-hover:bg-purple-600">
-                    <CalendarDays size={25} />
+                <div className="flex items-center gap-4 py-6">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-400">
+                    <CalendarDays size={22} />
                   </div>
-                  <div className="min-w-0">
+
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
-                      Event Date
+                      Date
                     </p>
-                    <h3 className="mt-2 font-bold text-foreground">
+                    <p className="mt-1 font-bold text-foreground">
                       {new Date(eventdetails.date).toLocaleDateString("en-US", {
+                        weekday: "long",
                         day: "numeric",
                         month: "long",
                         year: "numeric",
                       })}
-                    </h3>
+                    </p>
                   </div>
                 </div>
 
                 {/* Time */}
-                <div className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-pink-100 text-pink-600 transition group-hover:bg-pink-600 group-hover:text-white dark:bg-pink-950 dark:text-pink-400 dark:group-hover:bg-pink-600">
-                    <Clock size={25} />
+                <div className="flex items-center gap-4 py-6">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-pink-100 text-pink-600 dark:bg-pink-950 dark:text-pink-400">
+                    <Clock size={22} />
                   </div>
-                  <div className="min-w-0">
+
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
                       Starting Time
                     </p>
-                    <h3 className="mt-2 font-bold text-foreground">
+                    <p className="mt-1 font-bold text-foreground">
                       {eventdetails.time}
-                    </h3>
+                    </p>
                   </div>
                 </div>
 
                 {/* Location */}
-                <div className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-950 dark:text-blue-400 dark:group-hover:bg-blue-600">
-                    <MapPin size={25} />
+                <div className="flex items-center gap-4 py-6">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+                    <MapPin size={22} />
                   </div>
-                  <div className="min-w-0">
+
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
-                      Event Location
+                      Location
                     </p>
-                    <h3 className="mt-2 break-words font-bold text-foreground">
+                    <p className="mt-1 break-words font-bold text-foreground">
                       {eventdetails.location}
-                    </h3>
+                    </p>
                   </div>
                 </div>
 
                 {/* Capacity */}
-                <div className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-100 text-green-600 transition group-hover:bg-green-600 group-hover:text-white dark:bg-green-950 dark:text-green-400 dark:group-hover:bg-green-600">
-                    <Users size={25} />
+                <div className="flex items-center gap-4 py-6">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-600 dark:bg-green-950 dark:text-green-400">
+                    <Users size={22} />
                   </div>
-                  <div className="min-w-0">
+
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
                       Total Capacity
                     </p>
-                    <h3 className="mt-2 font-bold text-foreground">
+                    <p className="mt-1 font-bold text-foreground">
                       {eventdetails.capacity} Participants
-                    </h3>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Category */}
+                <div className="flex items-center gap-4 py-6">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400">
+                    <HeartHandshake size={22} />
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
+                      Category
+                    </p>
+                    <p className="mt-1 font-bold text-foreground">
+                      {eventdetails.category}
+                    </p>
                   </div>
                 </div>
               </div>
             </section>
 
             {/* Organizer */}
-            <section className="relative overflow-hidden rounded-[2rem] border border-border bg-card p-6 shadow-sm sm:p-9">
-              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-purple-100/60 blur-3xl dark:bg-purple-900/20" />
-
-              <div className="relative">
-                <p className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
-                  The People Behind It
+            <section>
+              <div className="mb-6">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
+                  Meet The Organizer
                 </p>
+                <h2 className="mt-2 text-2xl font-bold text-foreground">
+                  The Person Behind This Initiative
+                </h2>
+              </div>
 
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-200 dark:shadow-purple-950/40">
-                    <UserRound size={36} />
-                  </div>
+              <div className="flex flex-col gap-5 rounded-3xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:p-8">
+                <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 text-white shadow-lg">
+                  <UserRound size={30} />
+                </div>
 
-                  <div className="min-w-0">
-                    <h3 className="text-xl font-bold text-foreground sm:text-2xl">
-                      {eventdetails.organizerName}
-                    </h3>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-xl font-bold text-foreground">
+                    {eventdetails.organizerName}
+                  </h3>
+                </div>
 
-                    <p className="mt-2 flex items-center gap-2 break-all text-sm text-text-muted">
-                      <Mail
-                        size={16}
-                        className="shrink-0 text-purple-500 dark:text-purple-400"
-                      />
-                      {eventdetails.organizerEmail}
-                    </p>
-                  </div>
-
-                  <div className="sm:ml-auto">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-xs font-bold text-green-700 dark:bg-green-950/50 dark:text-green-400">
-                      <span className="h-2 w-2 rounded-full bg-green-500" />
-                      Verified Organizer
-                    </span>
-                  </div>
+                <div className="w-fit rounded-full bg-green-50 px-4 py-2 text-xs font-bold text-green-700 dark:bg-green-950/50 dark:text-green-400">
+                  <span className="mr-2 inline-block size-2 rounded-full bg-green-500" />
+                  Event Organizer
                 </div>
               </div>
             </section>
@@ -226,6 +305,20 @@ const EventDetailsPage = async ({ params }: IEventDetailsPage) => {
           <aside className="lg:sticky lg:top-24">
             <BookingBar eventdetails={eventdetails} />
           </aside>
+        </div>
+
+        {/* Bottom Message */}
+        <div className="mt-14 overflow-hidden rounded-3xl bg-gradient-to-r from-purple-700 to-indigo-600 px-6 py-10 text-center text-white sm:px-12">
+          <HeartHandshake className="mx-auto mb-4" size={35} />
+
+          <h2 className="text-2xl font-extrabold sm:text-3xl">
+            Together, We Can Make a Difference.
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-purple-100">
+            Every volunteer, every contribution, and every small act of kindness
+            helps build a stronger community.
+          </p>
         </div>
       </div>
     </main>

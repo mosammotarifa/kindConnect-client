@@ -242,7 +242,7 @@ const SignUpPage = () => {
                 </label>
                 <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-border bg-background p-4 text-text-muted transition hover:border-purple-500 hover:bg-purple-50 dark:hover:bg-purple-950/30">
                   <ImagePlus size={22} />
-                  <span className="text-sm">Upload your profile image</span>
+                  <span className="text-sm">Upload your profile image URL</span>
                   <input
                     type="url"
                     name="image"

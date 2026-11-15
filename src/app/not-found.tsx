@@ -1,66 +1,72 @@
-
+'use client'
 import Link from "next/link";
 import {
   ArrowLeft,
+  
+  HeartHandshake,
   Home,
   Search,
 } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F8F7FC] px-4 py-12">
-      {/* Background */}
-      <div className="absolute -left-32 -top-32 h-80 w-80 rounded-full bg-purple-200/40 blur-3xl" />
-      <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-pink-200/40 blur-3xl" />
-
-      <div className="relative z-10 w-full max-w-2xl rounded-[2rem] border border-white bg-white/80 p-8 text-center shadow-2xl shadow-purple-900/5 backdrop-blur-xl sm:p-14">
-
-        {/* 404 */}
-        <div className="relative mx-auto mb-6 flex h-36 w-36 items-center justify-center">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-100 to-pink-100" />
-
-          <div className="relative text-6xl font-black tracking-tighter text-purple-600 sm:text-7xl">
-            404
-          </div>
+    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-16">
+      <div className="w-full max-w-2xl text-center">
+        {/* Icon */}
+        <div className="relative mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-3xl bg-purple-100 text-purple-600 dark:bg-purple-950 dark:text-purple-400">
+          <HeartHandshake size={48} strokeWidth={1.7} />
+          <span className="absolute -right-3 -top-3 flex h-9 w-9 items-center justify-center rounded-full border-4 border-background bg-purple-600 text-white">
+            <Search size={15} />
+          </span>
         </div>
 
-        <span className="inline-flex items-center gap-2 rounded-full bg-purple-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-purple-600">
-          <Search size={14} />
-          Page Not Found
-        </span>
-
-        <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-          Lost Your Way?
-        </h1>
-
-        <p className="mx-auto mt-5 max-w-md text-sm leading-7 text-gray-500 sm:text-base">
-          The page you're looking for doesn't exist or may have
-          been moved. Let's help you find your way back to
-          the KindConnect community.
+        {/* 404 */}
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-purple-600 dark:text-purple-400">
+          Oops! Page not found
         </p>
 
-        {/* Navigation */}
+        <h1 className="mt-4 text-8xl font-black tracking-tight text-purple-600 dark:text-purple-400 sm:text-9xl">
+          404
+        </h1>
+
+        <h2 className="mt-5 text-2xl font-bold text-foreground sm:text-3xl">
+          Looks like you're lost!
+        </h2>
+
+        <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-text-muted sm:text-base">
+          The page you're looking for might have been removed, had its name
+          changed, or is temporarily unavailable. Don't worry, there's always a
+          way back to making a difference!
+        </p>
+
+        {/* Buttons */}
         <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
           <Link
             href="/"
-            className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-purple-200 transition hover:-translate-y-0.5"
+            className="flex items-center justify-center gap-2 rounded-xl bg-purple-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-purple-200/40 transition hover:-translate-y-1 hover:bg-purple-700 dark:shadow-purple-950/40"
           >
-            <Home size={17} />
+            <Home size={18} />
             Back to Home
           </Link>
 
           <button
+            type="button"
             onClick={() => window.history.back()}
-            className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-7 py-3.5 text-sm font-bold text-gray-700 transition hover:bg-purple-50 hover:text-purple-600"
+            className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-7 py-3.5 font-semibold text-foreground transition hover:bg-muted"
           >
-            <ArrowLeft size={17} />
+            <ArrowLeft size={18} />
             Go Back
           </button>
         </div>
 
-        <div className="mt-10 border-t border-gray-100 pt-6">
-          <p className="text-xs font-medium tracking-wide text-gray-300">
-            KINDCONNECT · CONNECTING PEOPLE, CREATING IMPACT
+        {/* Footer */}
+        <div className="mt-14 border-t border-border pt-6">
+          <p className="text-sm text-text-muted">
+            Made with <span className="text-red-500">♥</span> for a better
+            community.
+          </p>
+          <p className="mt-2 text-xs font-semibold tracking-wider text-purple-600 dark:text-purple-400">
+            KINDCONNECT
           </p>
         </div>
       </div>

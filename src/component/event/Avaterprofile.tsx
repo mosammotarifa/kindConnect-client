@@ -63,29 +63,29 @@ const AvatarProfile = () => {
         {/* Dropdown Menu */}
         <Dropdown.Menu>
           <Dropdown.Item id="profile" textValue="My Profile">
+            <Link className="flex gap-3" href="/profile">
             <UserRound className="size-4 text-purple-600 dark:text-purple-400" />
-            <Link href="/profile">
               <Label className="text-foreground">My Profile</Label>
             </Link>
           </Dropdown.Item>
 
           <Dropdown.Item id="createEvent" textValue="Create Event">
-            <CalendarDays className="size-4 text-purple-600 dark:text-purple-400" />
-            <Link href="/create-event">
+            <Link className="flex gap-3" href="/create-event">
+              <CalendarDays className="size-4 text-purple-600 dark:text-purple-400" />
               <Label className="text-foreground">Create Event</Label>
             </Link>
           </Dropdown.Item>
 
           <Dropdown.Item id="manageEvent" textValue="Manage Event">
-            <CalendarDays className="size-4 text-purple-600 dark:text-purple-400" />
-            <Link href="/manage-event">
+            <Link className="flex gap-3" href="/manage-event">
+              <CalendarDays className="size-4 text-purple-600 dark:text-purple-400" />
               <Label className="text-foreground">Manage Event</Label>
             </Link>
           </Dropdown.Item>
 
           <Dropdown.Item id="joinedEvent" textValue="Joined Event">
-            <CalendarDays className="size-4 text-purple-600 dark:text-purple-400" />
-            <Link href="/joined-event">
+            <Link className="flex gap-3" href="/joined-event">
+              <CalendarDays className="size-4 text-purple-600 dark:text-purple-400" />
               <Label className="text-foreground">Joined Event</Label>
             </Link>
           </Dropdown.Item>
