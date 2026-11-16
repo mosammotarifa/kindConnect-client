@@ -105,7 +105,7 @@ export const undoBooking = async (
   token: string,
 ) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/${eventId}/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/booking/${eventId}/${userId}`,
     {
       method: "DELETE",
       headers: {

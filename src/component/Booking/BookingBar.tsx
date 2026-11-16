@@ -1,6 +1,11 @@
+
 "use client";
 
-import { BookingData, checkJoinedStatus, undoBooking } from "@/lib/action";
+import {
+  BookingData,
+  checkJoinedStatus,
+  undoBooking,
+} from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
 import { getTokenFromClient } from "@/lib/tokenFromClient";
 import { Event, IJoined } from "@/type/type";
@@ -11,18 +16,56 @@ import {
   HeartHandshake,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
 
   const [isJoined, setIsJoined] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [checkingStatus, setCheckingStatus] = useState(false);
-  const [joinedCount, setJoinedCount] = useState(eventdetails.joinedCount ?? 0);
+  const [checkingStatus, setCheckingStatus] = useState(true);
+  const [joinedCount, setJoinedCount] = useState(
+    eventdetails.joinedCount ?? 0
+  );
 
-  const availableCapacity = Math.max(0, eventdetails.capacity - joinedCount);
+  const availableCapacity = Math.max(
+    0,
+    eventdetails.capacity - joinedCount
+  );
+
+  // Check whether the current user has already joined
+  useEffect(() => {
+    const checkStatus = async () => {
+      if (isPending) return;
+
+      if (!session?.user || !eventdetails._id) {
+        setIsJoined(false);
+        setCheckingStatus(false);
+        return;
+      }
+
+      try {
+        setCheckingStatus(true);
+
+        const token = await getTokenFromClient();
+
+        const joined = await checkJoinedStatus(
+          eventdetails._id,
+          session.user.id,
+          token
+        );
+
+        setIsJoined(joined);
+      } catch (error) {
+        console.error("Joined status error:", error);
+      } finally {
+        setCheckingStatus(false);
+      }
+    };
+
+    checkStatus();
+  }, [session, isPending, eventdetails._id]);
 
   const handleSubmit = async () => {
     if (!session?.user) {
@@ -42,18 +85,30 @@ const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
 
     try {
       setLoading(true);
-const token =await getTokenFromClient()
-      const joined = await checkJoinedStatus(eventdetails._id, session.user.id,token);
+
+      const token = await getTokenFromClient();
+
+      // Check current joined status
+      const joined = await checkJoinedStatus(
+        eventdetails._id,
+        session.user.id,
+        token
+      );
 
       if (joined) {
-        const token= await getTokenFromClient()
-        await undoBooking(eventdetails._id, session.user.id,token);
+        // Undo booking
+        await undoBooking(
+          eventdetails._id,
+          session.user.id,
+          token
+        );
 
         setIsJoined(false);
         setJoinedCount((prev) => Math.max(0, prev - 1));
 
         toast.success("You have left the event successfully");
       } else {
+        // Check available capacity
         if (availableCapacity <= 0) {
           toast.error("Sorry! This event is full");
           return;
@@ -69,8 +124,8 @@ const token =await getTokenFromClient()
           userEmail: session.user.email,
           userId: session.user.id,
         };
-const token = await getTokenFromClient()
-        await BookingData(joinedUserData,token);
+
+        await BookingData(joinedUserData, token);
 
         setIsJoined(true);
         setJoinedCount((prev) => prev + 1);
@@ -81,19 +136,21 @@ const token = await getTokenFromClient()
       console.error(error);
 
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong",
+        error instanceof Error
+          ? error.message
+          : "Something went wrong"
       );
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="sticky top-24">
       <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl shadow-purple-950/5">
         <div className="h-2 bg-gradient-to-r from-purple-500 via-violet-600 to-indigo-500" />
 
         <div className="p-6 sm:p-7">
-          {/* Header */}
           <div className="flex items-start justify-between gap-4">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-purple-100 px-3 py-1.5 text-xs font-bold text-purple-700 dark:bg-purple-950 dark:text-purple-300">
@@ -109,8 +166,8 @@ const token = await getTokenFromClient()
               </h2>
 
               <p className="mt-3 text-sm leading-6 text-text-muted">
-                Your time and kindness can create meaningful change. Become part
-                of this community initiative.
+                Your time and kindness can create meaningful change. Become
+                part of this community initiative.
               </p>
             </div>
 
@@ -119,7 +176,6 @@ const token = await getTokenFromClient()
             </div>
           </div>
 
-          {/* Capacity */}
           <div className="mt-7 rounded-2xl bg-muted/70 p-5">
             <div className="flex items-center justify-between">
               <div>
@@ -131,7 +187,9 @@ const token = await getTokenFromClient()
                   <span className="text-4xl font-extrabold text-foreground">
                     {availableCapacity}
                   </span>
-                  <span className="text-sm text-text-muted">Spots Left</span>
+                  <span className="text-sm text-text-muted">
+                    Spots Left
+                  </span>
                 </div>
               </div>
 
@@ -145,7 +203,6 @@ const token = await getTokenFromClient()
             </p>
           </div>
 
-          {/* Event Summary */}
           <div className="mt-7">
             <h3 className="mb-4 text-sm font-bold text-foreground">
               Event Overview
@@ -190,19 +247,23 @@ const token = await getTokenFromClient()
             </div>
           </div>
 
-          {/* Join / Undo Button */}
           <div className="mt-7 border-t border-border pt-6">
             <button
               type="button"
               onClick={handleSubmit}
-              disabled={loading || (!isJoined && availableCapacity <= 0)}
+              disabled={
+                loading ||
+                checkingStatus ||
+                isPending ||
+                (!isJoined && availableCapacity <= 0)
+              }
               className={`group flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-lg transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 ${
                 isJoined
                   ? "bg-red-600 shadow-red-600/20 hover:-translate-y-1 hover:bg-red-700"
                   : "bg-purple-600 shadow-purple-600/20 hover:-translate-y-1 hover:bg-purple-700"
               }`}
             >
-              {loading
+              {loading || checkingStatus
                 ? "Please wait..."
                 : isJoined
                   ? "Undo Join"
@@ -210,7 +271,7 @@ const token = await getTokenFromClient()
                     ? "Event Full"
                     : "Join This Event"}
 
-              {!loading && (
+              {!loading && !checkingStatus && (
                 <ArrowRight
                   size={19}
                   className="transition-transform duration-300 group-hover:translate-x-1"
