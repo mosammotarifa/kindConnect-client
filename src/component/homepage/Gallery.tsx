@@ -3,32 +3,32 @@ import Image from "next/image";
 
 const galleryImages = [
   {
-    image: "/gallery/tree-plantation.jpg",
+    image: "/public/Tree Plantation.png",
     title: "Tree Plantation",
     category: "Environment",
   },
   {
-    image: "/gallery/blood-donation.jpg",
+    image: "/public/Blood Donation.png",
     title: "Blood Donation",
     category: "Healthcare",
   },
   {
-    image: "/gallery/cleaning.jpg",
+    image: "/public/Community Cleaning.png",
     title: "Community Cleaning",
     category: "Social Work",
   },
   {
-    image: "/gallery/food-donation.jpg",
+    image: "'/public/Food Distribution.png",
     title: "Food Distribution",
     category: "Charity",
   },
   {
-    image: "/gallery/volunteers.jpg",
+    image: "/public/Volunteers Activites.png",
     title: "Volunteer Activities",
     category: "Community",
   },
   {
-    image: "/gallery/education.jpg",
+    image: "/public/Helping Children.png",
     title: "Helping Children",
     category: "Education",
   },
