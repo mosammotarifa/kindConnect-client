@@ -1,5 +1,6 @@
 import BookingBar from "@/component/Booking/BookingBar";
 import { getEventDataById } from "@/lib/action";
+import { getTokenFromSarver } from "@/lib/tokenFromSarver";
 import {
   ArrowRight,
   CalendarDays,
@@ -16,7 +17,8 @@ interface IEventDetailsPage {
 
 const EventDetailsPage = async ({ params }: IEventDetailsPage) => {
   const { id } = await params;
-  const eventdetails = await getEventDataById(id);
+  const token= await getTokenFromSarver()
+  const eventdetails = await getEventDataById(id,token);
   return (
     <main className="min-h-screen bg-background px-4 py-8 transition-colors sm:px-6 lg:px-10 lg:py-12">
       <div className="mx-auto max-w-7xl">

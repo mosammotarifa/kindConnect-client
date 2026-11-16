@@ -1,9 +1,12 @@
 import { Event, IJoined } from "@/type/type";
 
-export const createEventForm = async (userData: Event) => {
+export const createEventForm = async (userData: Event, token: string) => {
   const res = await fetch("http://localhost:5000/create-event", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(userData),
   });
   if (!res.ok) {
@@ -20,17 +23,28 @@ export const showEventData = async (): Promise<Event[]> => {
   const data: Event[] = await res.json();
   return data;
 };
-export const getEventDataById = async (id: string) => {
-  const res = await fetch(`http://localhost:5000/create-event/${id}`);
+export const getEventDataById = async (id: string, token: string) => {
+  const res = await fetch(`http://localhost:5000/create-event/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (!res.ok) {
     throw new Error("failed to get event data by Id");
   }
   const data: Event = await res.json();
   return data;
 };
-export const getEventDataByEmail = async (email: string): Promise<Event[]> => {
+export const getEventDataByEmail = async (email: string,token:string): Promise<Event[]> => {
   const res = await fetch(
     `http://localhost:5000/create-event/organizer/${email}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   if (!res.ok) {
     throw new Error("failed to get event data by email");

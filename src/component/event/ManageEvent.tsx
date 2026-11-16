@@ -5,12 +5,14 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import EditManage from "./EditManage";
 import DeleteManage from "./DeleteManage";
+import { getTokenFromSarver } from "@/lib/tokenFromSarver";
 
 const ManageEvent = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  const manageEvent = await getEventDataByEmail(session?.user?.email);
+  const token = await getTokenFromSarver()
+  const manageEvent = await getEventDataByEmail(session?.user?.email,token);
   console.log(manageEvent);
 
   return (

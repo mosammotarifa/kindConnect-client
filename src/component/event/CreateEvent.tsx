@@ -1,6 +1,7 @@
 "use client";
 import { createEventForm } from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/tokenFromClient";
 import { Event } from "@/type/type";
 import {
   CalendarDays,
@@ -43,7 +44,8 @@ const CreateEvent = () => {
       organizerName: String(formData.get("organizerName")),
     };
     try {
-      const result = await createEventForm(userData);
+      const token=await getTokenFromClient()
+      const result = await createEventForm(userData,token);
       router.push('/show-event')
       toast.success("successfully create event !!");
       console.log(result);
