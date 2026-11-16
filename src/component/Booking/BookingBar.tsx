@@ -2,6 +2,7 @@
 
 import { BookingData, checkJoinedStatus, undoBooking } from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/tokenFromClient";
 import { Event, IJoined } from "@/type/type";
 import {
   ArrowRight,
@@ -41,11 +42,12 @@ const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
 
     try {
       setLoading(true);
-
-      const joined = await checkJoinedStatus(eventdetails._id, session.user.id);
+const token =await getTokenFromClient()
+      const joined = await checkJoinedStatus(eventdetails._id, session.user.id,token);
 
       if (joined) {
-        await undoBooking(eventdetails._id, session.user.id);
+        const token= await getTokenFromClient()
+        await undoBooking(eventdetails._id, session.user.id,token);
 
         setIsJoined(false);
         setJoinedCount((prev) => Math.max(0, prev - 1));
@@ -67,8 +69,8 @@ const BookingBar = ({ eventdetails }: { eventdetails: Event }) => {
           userEmail: session.user.email,
           userId: session.user.id,
         };
-
-        await BookingData(joinedUserData);
+const token = await getTokenFromClient()
+        await BookingData(joinedUserData,token);
 
         setIsJoined(true);
         setJoinedCount((prev) => prev + 1);

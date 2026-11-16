@@ -15,6 +15,7 @@ import { Pencil } from "lucide-react";
 import { editManageEventData } from "@/lib/action";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { getTokenFromClient } from "@/lib/tokenFromClient";
 
 const EditManage = ({ manageData }: { manageData: Event }) => {
   const router = useRouter();
@@ -34,8 +35,9 @@ const EditManage = ({ manageData }: { manageData: Event }) => {
       organizerName: String(formData.get("organizerName")),
     };
     try {
+      const token = await getTokenFromClient()
       const bookingdata = await editManageEventData(
-        manageData._id,
+        manageData._id,token,
         bookingDataEdit,
       );
       toast.success("Edit successfull!");

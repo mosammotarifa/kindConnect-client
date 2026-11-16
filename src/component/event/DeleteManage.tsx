@@ -1,5 +1,6 @@
 "use client";
 import { deleteManageEventData } from "@/lib/action";
+import { getTokenFromClient } from "@/lib/tokenFromClient";
 import { Event } from "@/type/type";
 import { AlertDialog, Button } from "@heroui/react";
 import { Trash2 } from "lucide-react";
@@ -11,7 +12,8 @@ const DeleteManage = ({ manageData }: { manageData: Event }) => {
   const router = useRouter();
   const handleDelete = async () => {
     try {
-      const deletedata = await deleteManageEventData(manageData._id);
+      const token = await getTokenFromClient()
+      const deletedata = await deleteManageEventData(manageData._id,token);
       toast.success("successfully deleted");
       console.log(deletedata);
       router.refresh();

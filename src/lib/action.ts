@@ -36,7 +36,10 @@ export const getEventDataById = async (id: string, token: string) => {
   const data: Event = await res.json();
   return data;
 };
-export const getEventDataByEmail = async (email: string,token:string): Promise<Event[]> => {
+export const getEventDataByEmail = async (
+  email: string,
+  token: string,
+): Promise<Event[]> => {
   const res = await fetch(
     `http://localhost:5000/create-event/organizer/${email}`,
     {
@@ -53,10 +56,13 @@ export const getEventDataByEmail = async (email: string,token:string): Promise<E
   return data;
 };
 
-export const BookingData = async (joinedUserData: IJoined) => {
+export const BookingData = async (joinedUserData: IJoined, token: string) => {
   const res = await fetch("http://localhost:5000/booking", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(joinedUserData),
   });
 
@@ -73,9 +79,15 @@ export const BookingData = async (joinedUserData: IJoined) => {
 export const checkJoinedStatus = async (
   eventId: string,
   userId: string,
+  token: string,
 ): Promise<boolean> => {
   const res = await fetch(
     `http://localhost:5000/booking/check/${eventId}/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
 
   if (!res.ok) {
@@ -87,11 +99,18 @@ export const checkJoinedStatus = async (
 };
 
 // UNDO JOIN
-export const undoBooking = async (eventId: string, userId: string) => {
+export const undoBooking = async (
+  eventId: string,
+  userId: string,
+  token: string,
+) => {
   const res = await fetch(
     `http://localhost:5000/booking/${eventId}/${userId}`,
     {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
   );
 
@@ -104,8 +123,12 @@ export const undoBooking = async (eventId: string, userId: string) => {
   return data;
 };
 
-export const joinedUserData = async (userEmail: string) => {
-  const res = await fetch(`http://localhost:5000/booking/${userEmail}`);
+export const joinedUserData = async (userEmail: string, token: string) => {
+  const res = await fetch(`http://localhost:5000/booking/${userEmail}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (!res.ok) {
     throw new Error("failed to get joined userData");
   }
@@ -116,10 +139,14 @@ export const joinedUserData = async (userEmail: string) => {
 export const editManageEventData = async (
   id: string,
   bookingDataEdit: Event,
+  token: string,
 ) => {
   const res = await fetch(`http://localhost:5000/create-event/${id}`, {
     method: "PATCH",
-    headers: { "content-type": "application/json" },
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(bookingDataEdit),
   });
   if (!res.ok) {
@@ -128,9 +155,12 @@ export const editManageEventData = async (
   const data = await res.json();
   return data;
 };
-export const deleteManageEventData = async (id: string) => {
+export const deleteManageEventData = async (id: string, token:string) => {
   const res = await fetch(`http://localhost:5000/create-event/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   if (!res.ok) {
     throw new Error("failed to get deleteMangageEventData");
