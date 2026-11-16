@@ -1,18 +1,27 @@
 import { getEventDataByEmail } from "@/lib/action";
 import { auth } from "@/lib/auth";
-import { CalendarDays, Eye, HeartHandshake, Pencil, Trash2 } from "lucide-react";
+import {
+  CalendarDays,
+  Eye,
+  HeartHandshake,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
 import EditManage from "./EditManage";
 import DeleteManage from "./DeleteManage";
-import { getTokenFromSarver } from "@/lib/tokenFromSarver";
+import { getTokenFromServer } from "@/lib/tokenFromSarver";
 
 const ManageEvent = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  const token = await getTokenFromSarver()
-  const manageEvent = await getEventDataByEmail(session?.user?.email,token);
+  if (!session?.user?.email) {
+    return <div>Please login to see your joined events.</div>;
+  }
+  const token = await getTokenFromServer();
+  const manageEvent = await getEventDataByEmail(session?.user?.email, token);
   console.log(manageEvent);
 
   return (
@@ -146,8 +155,7 @@ const ManageEvent = async () => {
                     {/* View */}
                     <Link
                       href={`/show-event/${manageData._id}`}
-                          className="flex h-11 items-center justify-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 py-2  px-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950/50 dark:text-blue-400"
-
+                      className="flex h-11 items-center justify-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 py-2  px-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-100 dark:border-blue-900 dark:bg-blue-950/50 dark:text-blue-400"
                     >
                       <Eye size={17} />
                       View

@@ -13,6 +13,7 @@ export interface Event {
   email: string;
 }
 export interface IJoined {
+   _id?: string;
   eventId: string;
   eventName: string;
   time: string;

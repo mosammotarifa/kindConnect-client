@@ -12,6 +12,10 @@ const DeleteManage = ({ manageData }: { manageData: Event }) => {
   const router = useRouter();
   const handleDelete = async () => {
     try {
+       if (!manageData._id) {
+      toast.error("Event ID not found");
+      return;
+    }
       const token = await getTokenFromClient()
       const deletedata = await deleteManageEventData(manageData._id,token);
       toast.success("successfully deleted");

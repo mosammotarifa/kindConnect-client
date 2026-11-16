@@ -25,8 +25,11 @@ const categories = [
   "Other",
 ];
 const CreateEvent = () => {
-  const {data:session}= useSession()
   const router = useRouter()
+  const {data:session}= useSession()
+  if(!session?.user?.email){
+    return <div>Please login to see your create events.</div>
+  }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

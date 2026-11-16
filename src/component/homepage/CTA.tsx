@@ -1,6 +1,6 @@
 import {
   ArrowRight,
-  HandHeart,
+
   HeartHandshake,
   Sparkles,
   Users,

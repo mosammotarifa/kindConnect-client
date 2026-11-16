@@ -1,6 +1,7 @@
 import { joinedUserData } from "@/lib/action";
 import { auth } from "@/lib/auth";
-import { getTokenFromSarver } from "@/lib/tokenFromSarver";
+import { getTokenFromServer } from "@/lib/tokenFromSarver";
+
 import {
   ArrowRight,
   CalendarDays,
@@ -17,7 +18,10 @@ const JoindData = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  const token = await getTokenFromSarver()
+  if(!session?.user?.email){
+    return <div>Please login to see your joined events.</div>
+  }
+  const token = await getTokenFromServer()
   const joineddata = await joinedUserData(session?.user?.email,token);
 
   const today = new Date();

@@ -1,7 +1,7 @@
 "use client";
 import { signIn, signUp } from "@/lib/auth-client";
 import { FaChrome, FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+
 
 import {
   Eye,
