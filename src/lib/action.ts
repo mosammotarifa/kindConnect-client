@@ -1,7 +1,7 @@
 import { Event, IJoined } from "@/type/type";
 
 export const createEventForm = async (userData: Event, token: string) => {
-  const res = await fetch("http://localhost:5000/create-event", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -16,7 +16,7 @@ export const createEventForm = async (userData: Event, token: string) => {
   return data;
 };
 export const showEventData = async (): Promise<Event[]> => {
-  const res = await fetch("http://localhost:5000/create-event");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event`);
   if (!res.ok) {
     throw new Error("failed to showEventData");
   }
@@ -24,7 +24,7 @@ export const showEventData = async (): Promise<Event[]> => {
   return data;
 };
 export const getEventDataById = async (id: string, token: string) => {
-  const res = await fetch(`http://localhost:5000/create-event/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event/${id}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ export const getEventDataByEmail = async (
   token: string,
 ): Promise<Event[]> => {
   const res = await fetch(
-    `http://localhost:5000/create-event/organizer/${email}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/create-event/organizer/${email}`,
     {
       method: "GET",
       headers: {
@@ -57,7 +57,7 @@ export const getEventDataByEmail = async (
 };
 
 export const BookingData = async (joinedUserData: IJoined, token: string) => {
-  const res = await fetch("http://localhost:5000/booking", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/booking`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -82,7 +82,7 @@ export const checkJoinedStatus = async (
   token: string,
 ): Promise<boolean> => {
   const res = await fetch(
-    `http://localhost:5000/booking/check/${eventId}/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/booking/check/${eventId}/${userId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ export const undoBooking = async (
   token: string,
 ) => {
   const res = await fetch(
-    `http://localhost:5000/booking/${eventId}/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/${eventId}/${userId}`,
     {
       method: "DELETE",
       headers: {
@@ -124,7 +124,7 @@ export const undoBooking = async (
 };
 
 export const joinedUserData = async (userEmail: string, token: string) => {
-  const res = await fetch(`http://localhost:5000/booking/${userEmail}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/booking/${userEmail}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -141,7 +141,7 @@ export const editManageEventData = async (
   bookingDataEdit: Event,
   token: string,
 ) => {
-  const res = await fetch(`http://localhost:5000/create-event/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event/${id}`, {
     method: "PATCH",
     headers: {
       "content-type": "application/json",
@@ -156,7 +156,7 @@ export const editManageEventData = async (
   return data;
 };
 export const deleteManageEventData = async (id: string, token:string) => {
-  const res = await fetch(`http://localhost:5000/create-event/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
