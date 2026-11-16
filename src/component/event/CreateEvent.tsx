@@ -44,8 +44,8 @@ const CreateEvent = () => {
     };
     try {
       const result = await createEventForm(userData);
+      router.push('/show-event')
       toast.success("successfully create event !!");
-      router.refresh()
       console.log(result);
     } catch (error) {
       console.log(error);

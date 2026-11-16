@@ -171,10 +171,13 @@ const Footer = () => {
               Stay Connected
             </h4>
 
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-purple-600 transition hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300">
-              Discover Events
-              <ArrowRight size={17} />
-            </span>
+            <Link href={'/show-event'}>
+              
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-purple-600 transition hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300">
+                Discover Events
+                <ArrowRight size={17} />
+              </span>
+            </Link>
           </div>
         </div>
       </div>
@@ -197,7 +200,7 @@ const Footer = () => {
           </div>
 
           <p className="flex items-center gap-1 text-sm text-text-muted">
-            Made with{" "}
+            Made with
             <Heart size={15} className="fill-purple-500 text-purple-500" /> for
             humanity
           </p>

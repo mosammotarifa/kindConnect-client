@@ -1,9 +1,19 @@
 import { showEventData } from "@/lib/action";
-import { ArrowRight, CalendarDays, Clock, Plus, Users } from "lucide-react";
+import { ArrowRight, CalendarDays,  Plus,  } from "lucide-react";
 import Link from "next/link";
 
 const ShowEvent = async () => {
-  const showevent = await showEventData();
+ const events = await showEventData();
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const showevent = events.filter((event) => {
+  const eventDate = new Date(event.date);
+  eventDate.setHours(0, 0, 0, 0);
+
+  return eventDate >= today;
+});
   return (
     <section className="min-h-screen bg-background px-4 py-14 transition-colors sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
