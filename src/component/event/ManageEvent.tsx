@@ -4,8 +4,7 @@ import {
   CalendarDays,
   Eye,
   HeartHandshake,
-  Pencil,
-  Trash2,
+ 
 } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -95,7 +94,7 @@ const ManageEvent = async () => {
             <h3 className="text-xl font-bold text-foreground">No Events Yet</h3>
 
             <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-text-muted">
-              You haven't created any events yet. Start organizing an event and
+              You havent created any events yet. Start organizing an event and
               make a difference in your community.
             </p>
           </div>
