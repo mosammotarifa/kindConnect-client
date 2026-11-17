@@ -16,7 +16,7 @@ export const createEventForm = async (userData: Event, token: string) => {
   return data;
 };
 export const showEventData = async (): Promise<Event[]> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event`,{cache:"no-store"});
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/create-event`,{cache:"no-store",});
   if (!res.ok) {
     throw new Error("failed to showEventData");
   }
